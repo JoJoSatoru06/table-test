@@ -7,10 +7,10 @@ interface EditableCellProps extends ComponentProps<'div'> {
 	id: string
 	defaultValue: string
 	onValueChange: (id: string, value: string, originalValue: string) => void
-	cellType: CellType
+	type: CellType
 }
 
-export const EditableCell = ({ id, defaultValue, onValueChange, cellType, className, ...props }: EditableCellProps) => {
+export const EditableCell = ({ id, defaultValue, onValueChange, type, className, ...props }: EditableCellProps) => {
 	const [value, setValue] = useState(defaultValue)
 	const [isEditing, setIsEditing] = useState(false)
 
@@ -27,8 +27,15 @@ export const EditableCell = ({ id, defaultValue, onValueChange, cellType, classN
 	})
 
 	const onInputBlur = useEvent(() => {
-		if (!value.trim()) {
+		const formatter = CELL_TYPES[type].format
+		const formattedValue = formatter(value)
+
+		if (!formattedValue.trim()) {
 			setValue(defaultValue)
+			onValueChange(id, defaultValue, defaultValue)
+		} else {
+			setValue(formattedValue)
+			onValueChange(id, formattedValue, defaultValue)
 		}
 
 		setIsEditing(false)
@@ -39,7 +46,7 @@ export const EditableCell = ({ id, defaultValue, onValueChange, cellType, classN
 			return
 		}
 
-		const validator = CELL_TYPES[cellType].validate
+		const validator = CELL_TYPES[type].validate
 		const { value, selectionStart, selectionEnd } = e.currentTarget
 
 		const nextValue = value.substring(0, selectionStart ?? 0) + e.key + value.substring(selectionEnd ?? 0)
@@ -50,18 +57,19 @@ export const EditableCell = ({ id, defaultValue, onValueChange, cellType, classN
 	})
 
 	// Сделал так, чтобы текст можно было редактировать в textarea (в тз в одной из колонок несколько строчек), а остальные в input
-	const Component = cellType === EnumCellType.COMMENT ? 'textarea' : 'input'
+	const Component = type === EnumCellType.COMMENT ? 'textarea' : 'input'
 
 	return (
 		<div
-			className={cn(cellType === EnumCellType.COMMENT ? 'w-[300px] h-full grid min-h-[220px]' : 'w-full h-full', className)}
+			className={cn(type === EnumCellType.COMMENT ? 'w-[300px] h-full grid min-h-[220px]' : 'w-full h-full', className)}
 			id={id}
+			onFocus={onEdit}
 			{...props}>
 			{isEditing ? (
 				// На процентах можно использовать какой-нибудь инпут с маской (react-number-format), но в тз подобного не было
 				<Component
 					value={value}
-					className={cn('min-w-full min-h-full bg-transparent resize-none whitespace-pre-wrap')}
+					className={cn('min-w-full min-h-full bg-transparent resize-none whitespace-pre-wrap outline-none')}
 					autoFocus
 					onChange={onInputChange}
 					onBlur={onInputBlur}

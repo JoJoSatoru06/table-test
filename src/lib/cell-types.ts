@@ -29,8 +29,23 @@ export const CELL_TYPES: Record<CellType, CellTypeConfig> = {
 		type: 'percentage',
 		validate: (value: string): boolean => /^-?(\d+(\.\d*)?)?%?$/.test(value),
 		format: (value: string): string => {
-			if (value.endsWith('%')) return value
-			return value ? `${value}%` : value
+			const trimmedValue = value.trim()
+
+			if (!trimmedValue || trimmedValue === '%') {
+				return '0.0%'
+			}
+
+			let numericValue = trimmedValue.endsWith('%') ? trimmedValue.slice(0, -1) : trimmedValue
+
+			if (numericValue === '.') {
+				return '0.0%'
+			}
+
+			if (numericValue.endsWith('.')) {
+				numericValue += '0'
+			}
+
+			return `${numericValue}%`
 		}
 	},
 	name: {

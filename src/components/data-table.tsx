@@ -6,7 +6,6 @@ import { cn } from '../lib/cn'
 
 // Мемоизация нужна для того, чтобы избежать перерисовки компонента при изменении значения таймера.
 // На уровне выше обернул onValueChange в useEvent, поэтому ссылка на функцию будет единой, поэтому редактироваемые карточки не будут перерисовываться при изменении значения таймера (можно проверить через Profiler)
-
 interface DataTableProps extends ComponentProps<'div'> {
 	onValueChange: (id: string, value: string, originalValue: string) => void
 }
@@ -23,7 +22,7 @@ export const DataTable = memo(({ onValueChange, className, ...props }: DataTable
 							<EditableCell
 								id='date'
 								defaultValue='30 января 2024'
-								cellType={EnumCellType.TEXT}
+								type={EnumCellType.TEXT}
 								onValueChange={onValueChange}
 							/>
 						</TableHead>
@@ -31,7 +30,7 @@ export const DataTable = memo(({ onValueChange, className, ...props }: DataTable
 							<EditableCell
 								id='shift'
 								defaultValue='Смена 2'
-								cellType={EnumCellType.TEXT}
+								type={EnumCellType.TEXT}
 								onValueChange={onValueChange}
 							/>
 						</TableHead>
@@ -39,7 +38,7 @@ export const DataTable = memo(({ onValueChange, className, ...props }: DataTable
 							<EditableCell
 								id='master'
 								defaultValue='Мастер: Иванов И. И.'
-								cellType={EnumCellType.NAME}
+								type={EnumCellType.NAME}
 								onValueChange={onValueChange}
 							/>
 						</TableHead>
@@ -47,7 +46,7 @@ export const DataTable = memo(({ onValueChange, className, ...props }: DataTable
 							<EditableCell
 								id='master'
 								defaultValue='РПТКМ-120'
-								cellType={EnumCellType.TEXT}
+								type={EnumCellType.TEXT}
 								onValueChange={onValueChange}
 							/>
 						</TableHead>
@@ -60,17 +59,17 @@ export const DataTable = memo(({ onValueChange, className, ...props }: DataTable
 							<EditableCell
 								id='personal'
 								defaultValue='Персонал'
-								cellType={EnumCellType.TEXT}
+								type={EnumCellType.TEXT}
 								onValueChange={onValueChange}
 							/>
 						</TableCell>
 						<TableCell
-							className='text-left px-8'
+							className='text-center px-8 font-semibold'
 							colSpan={3}>
 							<EditableCell
 								id='personal-count'
 								defaultValue='100500 человек'
-								cellType={EnumCellType.TEXT}
+								type={EnumCellType.TEXT}
 								onValueChange={onValueChange}
 							/>
 						</TableCell>
@@ -80,7 +79,7 @@ export const DataTable = memo(({ onValueChange, className, ...props }: DataTable
 							<EditableCell
 								id='comment'
 								defaultValue='Комментарий в 3-5 строчек, который тоже можно редактировать.'
-								cellType={EnumCellType.COMMENT}
+								type={EnumCellType.COMMENT}
 								onValueChange={onValueChange}
 							/>
 						</TableCell>
@@ -92,51 +91,51 @@ export const DataTable = memo(({ onValueChange, className, ...props }: DataTable
 							<EditableCell
 								id='ktp'
 								defaultValue='КТП 2000 321'
-								cellType={EnumCellType.TEXT}
+								type={EnumCellType.TEXT}
 								onValueChange={onValueChange}
 							/>
 						</TableCell>
-						<TableCell className='text-left px-8'>
+						<TableCell className='text-left px-8 font-semibold'>
 							<EditableCell
 								id='status'
 								defaultValue='Работает'
-								cellType={EnumCellType.TEXT}
+								type={EnumCellType.TEXT}
 								onValueChange={onValueChange}
 							/>
 						</TableCell>
-						<TableCell className='text-left px-8'>
+						<TableCell className='text-center px-8 font-semibold'>
 							<EditableCell
 								id='count'
 								defaultValue='24'
-								cellType={EnumCellType.NUMBER}
+								type={EnumCellType.NUMBER}
 								onValueChange={onValueChange}
 							/>
 						</TableCell>
-						<TableCell className='text-left px-8'>
+						<TableCell className='text-left px-8 font-semibold'>
 							<EditableCell
 								id='spi'
 								defaultValue='SPI 3432'
-								cellType={EnumCellType.TEXT}
+								type={EnumCellType.TEXT}
 								onValueChange={onValueChange}
 							/>
 						</TableCell>
 					</TableRow>
 					<TableRow>
-						<TableCell className='text-left px-8'>
+						<TableCell className='text-left px-8 font-semibold'>
 							<EditableCell
 								id='percent'
 								defaultValue='98.4%'
-								cellType={EnumCellType.PERCENTAGE}
+								type={EnumCellType.PERCENTAGE}
 								onValueChange={onValueChange}
 							/>
 						</TableCell>
 						<TableCell
-							className='text-center text-red-500 font-semibold'
+							className='text-left text-red-500 font-semibold'
 							colSpan={2}>
 							<EditableCell
 								id='status-note'
 								defaultValue='Функционирует, но не бьет'
-								cellType={EnumCellType.TEXT}
+								type={EnumCellType.TEXT}
 								onValueChange={onValueChange}
 							/>
 						</TableCell>
